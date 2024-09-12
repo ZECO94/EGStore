@@ -15,8 +15,15 @@ namespace EGStore
             builder.Services.AddRazorPages();
             builder.Services.AddDbContext<ApplicationDbContext>(
         options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            //GOOGLE Service
+            builder.Services.AddAuthentication().AddGoogle(googleOptions =>
+            {
+                googleOptions.ClientId = "334519554860-c44funt6up5pu2v5mr01pshl1v8fe9cc.apps.googleusercontent.com";
+                googleOptions.ClientSecret = "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";
+            });
 
-            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
+
+            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<ApplicationDbContext>();
 
             var app = builder.Build();
 
