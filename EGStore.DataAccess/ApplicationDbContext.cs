@@ -7,7 +7,7 @@ namespace EGStore.DataAccess
 {
     public class ApplicationDbContext : IdentityDbContext<IdentityUser> 
     {
-        public DbSet<ApplicationUser> ApplicationUsers {  get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> products { get; set; }
         public DbSet<Brand> brands { get; set; }
@@ -22,6 +22,13 @@ namespace EGStore.DataAccess
         {
 
         }
+        //protected override void OnModelCreating(ModelBuilder builder)
+        //{
+        //    base.OnModelCreating(builder);
+        //    // Customize the ASP.NET Identity model and override the defaults if needed.
+        //    // For example, you can rename the ASP.NET Identity table names and more.
+        //    // Add your customizations after calling base.OnModelCreating(builder);
+        //}
 
     }
 }
