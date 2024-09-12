@@ -1,4 +1,4 @@
-﻿using MyStore.Utility;
+﻿using EGStore.Utility;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyStore.Models
+namespace EGStore.Models
 {
     public class Order
     {

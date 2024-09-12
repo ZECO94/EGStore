@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyStore.Models
+namespace EGStore.Models
 {
     public class Review
     {

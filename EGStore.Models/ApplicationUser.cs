@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace MyStore.Models
+namespace EGStore.Models
 {
     public class ApplicationUser : IdentityUser
     {

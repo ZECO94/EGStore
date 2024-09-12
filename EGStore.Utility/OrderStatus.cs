@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyStore.Utility
+namespace EGStore.Utility
 {
     public enum OrderStatus
     {
