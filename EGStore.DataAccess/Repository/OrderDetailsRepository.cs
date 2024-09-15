@@ -12,6 +12,7 @@ namespace EGStore.DataAccess.Repository
     {
         public OrderDetailsRepository(ApplicationDbContext context) : base(context)
         {
+
         }
     }
 }
