@@ -26,7 +26,7 @@ namespace EGStore.DataAccess
         {
             base.OnModelCreating(builder);
 
-            // Seed Roles
+              
             builder.Entity<IdentityRole>().HasData(
                 new IdentityRole { Name = "Admin", NormalizedName = "ADMIN" },
                 new IdentityRole { Name = "Manager", NormalizedName = "MANAGER" },
