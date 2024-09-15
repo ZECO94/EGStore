@@ -22,6 +22,17 @@ namespace EGStore.DataAccess
         {
 
         }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            // Seed Roles
+            builder.Entity<IdentityRole>().HasData(
+                new IdentityRole { Name = "Admin", NormalizedName = "ADMIN" },
+                new IdentityRole { Name = "Manager", NormalizedName = "MANAGER" },
+                new IdentityRole { Name = "User", NormalizedName = "USER" }
+            );
+        }
         //protected override void OnModelCreating(ModelBuilder builder)
         //{
         //    base.OnModelCreating(builder);
