@@ -11,6 +11,6 @@ namespace EGStore.Models
         public int Id { get; set; }
         public string CategoryName { get; set; }
         public string CategoryDescription { get; set; }
-        public IEnumerable<Product> Products { get; set;}
+        public IEnumerable<Product>? Products { get; set;}
     }
 }

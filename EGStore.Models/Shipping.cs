@@ -14,7 +14,7 @@ namespace EGStore.Models
         public string PostalCode { get; set; }
         public string AgentName { get; set; }
         public string AgentPhoneNumber { get; set; }
-        public IEnumerable<Order> Orders { get; set; }
+        public IEnumerable<Order>? Orders { get; set; }
 
     }
 }

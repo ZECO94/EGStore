@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace EGStore.DataAccess.Repository
 {
-    internal class ShippingRepository : Repository<Shipping>,IShippingRepository
+    public class ShippingRepository : Repository<Shipping>,IShippingRepository
     {
         public ShippingRepository(ApplicationDbContext context) : base(context) { }
     }

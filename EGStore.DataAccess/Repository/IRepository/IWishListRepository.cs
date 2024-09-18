@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EGStore.DataAccess.Repository.IRepository
 {
-    internal interface IWishListRepository : IRepository<WishList>
+    public interface IWishListRepository : IRepository<WishList>
     {
     }
 }

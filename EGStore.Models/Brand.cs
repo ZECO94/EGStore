@@ -12,7 +12,7 @@ namespace EGStore.Models
         public string BrandName { get; set; }
         public string Description { get; set; }
         public string Logo { get; set; }
-        public IEnumerable<Product> Products { get; set; }
+        public IEnumerable<Product>? Products { get; set; }
 
     }
 }

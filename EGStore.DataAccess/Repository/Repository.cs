@@ -11,7 +11,7 @@ using EGStore.DataAccess;
 
 namespace EGStore.DataAccess.Repository
 {
-    internal class Repository<T> : IRepository<T> where T : class
+    public class Repository<T> : IRepository<T> where T : class
     {
         private readonly ApplicationDbContext _context;
         private DbSet<T> dbset;

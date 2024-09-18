@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EGStore.DataAccess.Repository.IRepository
 {
-    internal interface IShippingRepository : IRepository<Shipping>
+    public interface IShippingRepository : IRepository<Shipping>
     {
     }
 }

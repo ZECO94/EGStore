@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EGStore.DataAccess.Repository.IRepository
 {
-    internal interface IOrderDetailsRepository : IRepository<OrderDetails>
+    public interface IOrderDetailsRepository : IRepository<OrderDetails>
     {
     }
 }

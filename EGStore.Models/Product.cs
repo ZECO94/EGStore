@@ -21,8 +21,8 @@ namespace EGStore.Models
         
         [ForeignKey("Brand")]
         public int BrandId { get; set; }
-        public Category Category { get; set; }
-        public Brand Brand { get; set;}
-        public IEnumerable<Review> Reviews { get; set;}
+        public Category? Category { get; set; }
+        public Brand? Brand { get; set;}
+        public IEnumerable<Review>? Reviews { get; set;}
     }
 }

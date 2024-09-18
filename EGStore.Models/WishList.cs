@@ -10,9 +10,10 @@ namespace EGStore.Models
     public class WishList
     {
         public int Id { get; set; }
+
         [ForeignKey("ApplicationUser")]
         public string ApplicationUserId { get; set; }
-        public ApplicationUser ApplicationUser { get; set; }
-        public IEnumerable<Product> Products { get; set; }  
+        public ApplicationUser? ApplicationUser { get; set; }
+        public IEnumerable<Product>? Products { get; set; }  
     }
 }

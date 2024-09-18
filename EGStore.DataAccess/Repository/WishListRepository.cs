@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace EGStore.DataAccess.Repository
 {
-    internal class WishListRepository : Repository<WishList>, IWishListRepository
+    public class WishListRepository : Repository<WishList>, IWishListRepository
     {
         public WishListRepository(ApplicationDbContext context) : base(context)
         {

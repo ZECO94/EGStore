@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EGStore.DataAccess.Repository.IRepository
 {
-    internal interface IBrandRepository : IRepository<Brand>
+    public interface IBrandRepository : IRepository<Brand>
     {
     }
 }

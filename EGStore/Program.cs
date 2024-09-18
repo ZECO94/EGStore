@@ -1,6 +1,10 @@
 using EGStore.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using EGStore.Utility;
+using EGStore.DataAccess.Repository;
+using EGStore.DataAccess.Repository.IRepository;
 
 namespace EGStore
 {
@@ -15,7 +19,19 @@ namespace EGStore
             builder.Services.AddRazorPages();
             builder.Services.AddDbContext<ApplicationDbContext>(
         options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-            //GOOGLE Service
+            builder.Services.AddScoped<IEmailSender, EmailSender>();
+            builder.Services.AddScoped<IBrandRepository,BrandRepository>();
+            builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+            builder.Services.AddScoped<IProductRepository, ProductRepository>();
+            builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+            builder.Services.AddScoped<IShippingRepository, ShippingRepository>();
+            builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+            builder.Services.AddScoped<IOrderDetailsRepository, OrderDetailsRepository>();
+            builder.Services.AddScoped<IWishListRepository, WishListRepository>();
+            builder.Services.AddScoped<ICartRepository, CartRepository>();
+
+
+            ////GOOGLE Service
             builder.Services.AddAuthentication().AddGoogle(googleOptions =>
             {
                 googleOptions.ClientId = "334519554860-c44funt6up5pu2v5mr01pshl1v8fe9cc.apps.googleusercontent.com";
@@ -23,8 +39,8 @@ namespace EGStore
             });
 
 
-            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<ApplicationDbContext>();
-
+            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
+            
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

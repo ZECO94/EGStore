@@ -19,7 +19,7 @@ namespace EGStore.Models
         public int ProductId { get; set; }
         [ForeignKey("ApplicationUser")]
         public string ApplicationUserId { get; set; }
-        public Product Product { get; set; }
-        public ApplicationUser ApplicationUser { get; set; }
+        public Product? Product { get; set; }
+        public ApplicationUser? ApplicationUser { get; set; }
     }
 }

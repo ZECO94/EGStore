@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace EGStore.DataAccess.Repository
 {
-    internal class BrandRepository : Repository<Brand> ,IBrandRepository
+    public class BrandRepository : Repository<Brand> ,IBrandRepository
     {
         public BrandRepository(ApplicationDbContext context) : base(context) { }
     }

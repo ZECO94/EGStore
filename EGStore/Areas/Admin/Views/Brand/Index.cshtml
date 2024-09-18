@@ -1,0 +1,67 @@
+﻿@model IEnumerable<Brand>
+
+<h1>Brands</h1>
+<hr />
+<a asp-action="Create" asp-controller="Brand" class="btn btn-success">Add New</a>
+<br />
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Logo</th>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr class="table-secondary">
+                <th scope="row"><img src="~/logo/@item.Logo" style="width:50px" /></th>
+                <td>@item.BrandName</td>
+                <td>@item.Description</td>
+                <td>
+                    <a asp-area="Admin" asp-action="Edit" asp-controller="Brand" asp-route-id="@item.Id" class="btn btn-warning">Edit</a>
+                    <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" data-id="@item.Id" data-name="@item.BrandName">Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Bootstrap Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete the brand <strong id="brandName"></strong>?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <a id="confirmDeleteButton" class="btn btn-danger">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $('#deleteModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var brandId = button.data('id'); // Extract info from data-* attributes
+            var brandName = button.data('name');
+
+            var modal = $(this);
+            modal.find('.modal-body #brandName').text(brandName);
+            modal.find('.modal-footer #confirmDeleteButton').attr('href', '/Admin/Brand/Delete/' + brandId);
+        });
+    </script>
+}
+
+
+                   

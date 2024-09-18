@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EGStore.DataAccess.Repository.IRepository
 {
-    internal interface ICartRepository : IRepository<Cart>
+    public interface ICartRepository : IRepository<Cart>
     {
     }
 }

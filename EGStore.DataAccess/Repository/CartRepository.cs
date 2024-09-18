@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace EGStore.DataAccess.Repository
 {
-    internal class CartRepository : Repository<Cart>,ICartRepository
+    public class CartRepository : Repository<Cart>,ICartRepository
     {
         public CartRepository(ApplicationDbContext context) : base(context) { }
     }

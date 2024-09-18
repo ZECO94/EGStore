@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EGStore.DataAccess.Repository.IRepository
 {
-    internal interface IReviewRepository : IRepository<Review>
+    public interface IReviewRepository : IRepository<Review>
     {
     }
 }

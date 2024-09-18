@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace EGStore.DataAccess.Repository
 {
-    internal class ReviewRepository : Repository<Review>,IReviewRepository
+    public class ReviewRepository : Repository<Review>,IReviewRepository
     {
         public ReviewRepository(ApplicationDbContext context) : base(context) { }
     }

@@ -19,8 +19,8 @@ namespace EGStore.Models
         [ForeignKey("Shipping")]
         public int ShippingId { get; set; }
         public OrderStatus OrderStatus { get; set; }
-        public ApplicationUser ApplicationUser { get; set; }
-        public Shipping Shipping { get; set; }
-        public IEnumerable<OrderDetails> OrderDetails { get; set; }
+        public ApplicationUser? ApplicationUser { get; set; }
+        public Shipping? Shipping { get; set; }
+        public IEnumerable<OrderDetails>? OrderDetails { get; set; }
     }
 }
