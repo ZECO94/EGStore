@@ -4,6 +4,7 @@ using EGStore.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EGStore.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240919074753_newdb")]
+    partial class newdb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -321,19 +324,19 @@ namespace EGStore.DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "04efe03f-97f1-4655-bdca-48d9761fd0e6",
+                            Id = "2a02a70f-5fe1-4c62-b028-d6003f48477d",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "a5ff25ab-4be1-40ee-a28f-d3fe37b4fa37",
+                            Id = "f13efe20-d123-4830-8a61-35a24eb8f252",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
-                            Id = "2b9929c2-5e80-4ba0-8cb6-6f810905217f",
+                            Id = "5fb1a574-eb90-4872-8527-7c064e36b063",
                             Name = "User",
                             NormalizedName = "USER"
                         });

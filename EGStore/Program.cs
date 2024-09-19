@@ -29,6 +29,7 @@ namespace EGStore
             builder.Services.AddScoped<IOrderDetailsRepository, OrderDetailsRepository>();
             builder.Services.AddScoped<IWishListRepository, WishListRepository>();
             builder.Services.AddScoped<ICartRepository, CartRepository>();
+            
 
 
             ////GOOGLE Service

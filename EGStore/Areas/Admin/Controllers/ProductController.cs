@@ -1,6 +1,8 @@
 ﻿using EGStore.DataAccess.Repository.IRepository;
 using EGStore.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+
 
 namespace EGStore.Areas.Admin.Controllers
 {
@@ -8,17 +10,34 @@ namespace EGStore.Areas.Admin.Controllers
     public class ProductController : Controller
     {
         private readonly IProductRepository _productRepository;
-        public ProductController(IProductRepository productRepository)
+        private readonly ICategoryRepository _categoryRepository;
+        private readonly IBrandRepository _brandRepository;
+        public ProductController(IProductRepository productRepository, ICategoryRepository categoryRepository,
+            IBrandRepository brandRepository)
         {
             _productRepository = productRepository;
+            _categoryRepository = categoryRepository;
+            _brandRepository = brandRepository;
         }
         public IActionResult Index()
         {
-            var products = _productRepository.Get(null);
+            var products = _productRepository.Get(null,x=>x.Category,x=>x.Brand);
             return View(products);
         }
         public IActionResult Edit(int id)
         {
+            var categoryList = _categoryRepository.Get(null).Select(x => new SelectListItem
+            {
+                Value = x.Id.ToString(),
+                Text = x.CategoryName
+            }).ToList();
+            ViewBag.CategoryList = categoryList;
+            var brandList = _brandRepository.Get(null).Select(x => new SelectListItem
+            {
+                Value = x.Id.ToString(),
+                Text = x.BrandName
+            }).ToList();
+            ViewBag.BrandList = brandList;
             var product = _productRepository.GetOne(x => x.Id == id);
             if (product != null)
             {
@@ -39,7 +58,19 @@ namespace EGStore.Areas.Admin.Controllers
         }
         public IActionResult Create()
         {
-            return View();
+            var categoryList = _categoryRepository.Get(null).Select(x => new SelectListItem
+            {
+                Value = x.Id.ToString(),
+                Text = x.CategoryName
+            }).ToList();
+            ViewBag.CategoryList = categoryList;
+            var brandList = _brandRepository.Get(null).Select(x => new SelectListItem
+            {
+                Value = x.Id.ToString(),
+                Text = x.BrandName
+            }).ToList();
+            ViewBag.BrandList = brandList;
+            return View("Create");
         }
         [HttpPost]
         public IActionResult Create(Product product)

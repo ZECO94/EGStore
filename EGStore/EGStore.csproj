@@ -26,4 +26,8 @@
     <ProjectReference Include="..\EGStore.Utility\EGStore.Utility.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\Admin\Views\Order\" />
+  </ItemGroup>
+
 </Project>

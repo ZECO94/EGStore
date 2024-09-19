@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<Product>
 
-<h1>Categories</h1>
+<h1>Products</h1>
 <hr />
 <a asp-action="Create" asp-controller="Product" class="btn btn-success">Add New</a>
 <br />
@@ -12,6 +12,7 @@
             <th scope="col">Image</th>
             <th scope="col">Rate</th>
             <th scope="col">Price</th>
+            <th scope="col">Stock</th>
             <th scope="col">Category</th>
             <th scope="col">Brand</th>
             <th scope="col">Action</th>
@@ -23,11 +24,14 @@
             <tr class="table-secondary">
                 <th>@item.ProductName</th>
                 <td>@item.ProductDescription</td>
-                <td>@item.Image</td>
+                <td>
+                    <img src="~/Imgs/@item.Image" style="width:70px" />
+                </td>
                 <td>@item.Rate</td>
-                <td>@item.Price</td>
+                <td>@item.Price$</td>
+                <td>@item.StockQuantity</td>
                 <td>@item.Category.CategoryName</td>
-                <td>@item.Brand.BrandName</td>
+                <td>@item.Brand.BrandName</td> 
                 <td>
                     <a asp-area="Admin" asp-action="Edit" asp-controller="Product" asp-route-id="@item.Id" class="btn btn-warning">Edit</a>
                     <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" data-id="@item.Id" data-name="@item.ProductName">Delete</button>

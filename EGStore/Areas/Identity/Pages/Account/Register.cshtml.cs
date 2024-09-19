@@ -38,7 +38,7 @@ namespace EGStore.Areas.Identity.Pages.Account
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
-            //RoleManager<IdentityRole> roleManager)
+        //RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -103,7 +103,7 @@ namespace EGStore.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
         }
 
-        
+
         public async Task OnGetAsync(string returnUrl = null)
         {
             //if (_roleManager.Roles.IsNullOrEmpty())
