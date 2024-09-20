@@ -9,23 +9,23 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace EGStore.Utility
 {
-    public class EmailSender : IEmailSender
-    {
-        public Task SendEmailAsync(string email, string subject, string message)
-        {
-            var client = new SmtpClient("smtp@gmail.com", 587)
-            {
-                EnableSsl = true,
-                UseDefaultCredentials = false,
-                Credentials = new NetworkCredential("hassanbayomi.94@gmail.com", "lcjj autj ugaw nhdr")
-            };
+    //public class EmailSender : IEmailSender
+    //{
+    //    public Task SendEmailAsync(string email, string subject, string message)
+    //    {
+    //        var client = new SmtpClient("smtp@gmail.com", 587)
+    //        {
+    //            EnableSsl = true,
+    //            UseDefaultCredentials = false,
+    //            Credentials = new NetworkCredential("hassanbayomi.94@gmail.com", "lcjj autj ugaw nhdr")
+    //        };
 
-            return client.SendMailAsync(
-                new MailMessage(from: "hassanbayomi.94@gmail.com",
-                                to: email,
-                                subject,
-                                message
-                                ));
-        }
-    }
+    //        return client.SendMailAsync(
+    //            new MailMessage(from: "hassanbayomi.94@gmail.com",
+    //                            to: email,
+    //                            subject,
+    //                            message
+    //                            ));
+    //    }
+    //}
 }

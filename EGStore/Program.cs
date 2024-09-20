@@ -19,7 +19,7 @@ namespace EGStore
             builder.Services.AddRazorPages();
             builder.Services.AddDbContext<ApplicationDbContext>(
         options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-            builder.Services.AddScoped<IEmailSender, EmailSender>();
+            //builder.Services.AddScoped<IEmailSender, EmailSender>();
             builder.Services.AddScoped<IBrandRepository,BrandRepository>();
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
@@ -40,7 +40,7 @@ namespace EGStore
             });
 
 
-            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
+            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false).AddRoles<IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
             
             var app = builder.Build();
 
