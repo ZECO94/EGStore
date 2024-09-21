@@ -6,6 +6,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using EGStore.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -24,6 +25,7 @@ namespace EGStore.Areas.Identity.Pages.Account.Manage
             _userManager = userManager;
             _signInManager = signInManager;
         }
+
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -58,6 +60,9 @@ namespace EGStore.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+            [Display(Name = "Profile Picture")]
+            public IFormFile ProfilePicture { get; set; }
+            //public string ProfilePictureUrl { get; set; }
         }
 
         private async Task LoadAsync(IdentityUser user)
@@ -71,6 +76,7 @@ namespace EGStore.Areas.Identity.Pages.Account.Manage
             {
                 PhoneNumber = phoneNumber
             };
+            
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -98,6 +104,16 @@ namespace EGStore.Areas.Identity.Pages.Account.Manage
                 await LoadAsync(user);
                 return Page();
             }
+            if (Input.ProfilePicture != null)
+            {
+                var fileName = $"{_userManager.GetUserId(User)}_{Input.ProfilePicture.FileName}";
+                var filePath = Path.Combine("wwwroot/profile", fileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await Input.ProfilePicture.CopyToAsync(stream);
+                }
+            }
 
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
             if (Input.PhoneNumber != phoneNumber)
@@ -116,3 +132,4 @@ namespace EGStore.Areas.Identity.Pages.Account.Manage
         }
     }
 }
+
