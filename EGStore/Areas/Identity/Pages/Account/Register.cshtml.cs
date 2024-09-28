@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
@@ -110,7 +111,7 @@ namespace EGStore.Areas.Identity.Pages.Account
             public string Address { get; set; }
             public string PhoneNumber { get; set; }
             [Display(Name = "Role")]
-            
+            [ValidateNever]
             public string SelectedRole { get; set; }
         }
 
@@ -119,7 +120,8 @@ namespace EGStore.Areas.Identity.Pages.Account
         {
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-            if (User.IsInRole("Admin"))
+
+            if (User.IsInRole("Admin"))  // Only show roles to Admin
             {
                 Roles = _roleManager.Roles.Select(r => new SelectListItem
                 {
@@ -128,6 +130,7 @@ namespace EGStore.Areas.Identity.Pages.Account
                 }).ToList();
             }
         }
+
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
@@ -146,33 +149,39 @@ namespace EGStore.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
-                   
-                    var roleExists = await _roleManager.RoleExistsAsync("User");
+                    // Assign the role based on the user type
+                    string assignedRole = "User"; // Default role for customers
+
+                    // If the logged-in user is an admin, use the selected role from the form
+                    if (User.IsInRole("Admin") && !string.IsNullOrEmpty(Input.SelectedRole))
+                    {
+                        assignedRole = Input.SelectedRole;
+                    }
+
+                    // Check if the role exists
+                    var roleExists = await _roleManager.RoleExistsAsync(assignedRole);
                     if (!roleExists)
                     {
-                        var roleResult = await _roleManager.CreateAsync(new IdentityRole(Input.SelectedRole));
+                        var roleResult = await _roleManager.CreateAsync(new IdentityRole(assignedRole));
                         if (!roleResult.Succeeded)
                         {
-                            // Log role creation errors and show them to the user
+                            // Handle role creation errors
                             foreach (var error in roleResult.Errors)
                             {
                                 ModelState.AddModelError(string.Empty, error.Description);
                             }
-                            // Redisplay the form if role creation fails
                             return Page();
                         }
                     }
 
                     // Assign the role to the user
-                    var roleAssignmentResult = await _userManager.AddToRoleAsync(user,"User");
+                    var roleAssignmentResult = await _userManager.AddToRoleAsync(user, assignedRole);
                     if (!roleAssignmentResult.Succeeded)
                     {
-                        // Log role assignment errors and show them to the user
                         foreach (var error in roleAssignmentResult.Errors)
                         {
                             ModelState.AddModelError(string.Empty, error.Description);
                         }
-                        // Redisplay the form if role assignment fails
                         return Page();
                     }
 
@@ -201,23 +210,24 @@ namespace EGStore.Areas.Identity.Pages.Account
                     }
                 }
 
-                // Display errors if user creation fails
+                // Handle errors during user creation
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
 
-            // Reload roles in case of a failure during registration
+            // Reload roles in case of failure
             Roles = _roleManager.Roles.Select(r => new SelectListItem
             {
                 Value = r.Name,
                 Text = r.Name
             }).ToList();
 
-            // If we got this far, something failed, redisplay form
             return Page();
         }
+
+
 
 
         private ApplicationUser CreateUser()
