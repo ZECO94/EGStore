@@ -109,8 +109,8 @@ namespace EGStore.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
             public string Address { get; set; }
             public string PhoneNumber { get; set; }
-            [Required(ErrorMessage = "Please select a role.")]
             [Display(Name = "Role")]
+            
             public string SelectedRole { get; set; }
         }
 
@@ -146,8 +146,8 @@ namespace EGStore.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
-                    // Check if the selected role exists, if not, create it (optional step)
-                    var roleExists = await _roleManager.RoleExistsAsync(Input.SelectedRole);
+                   
+                    var roleExists = await _roleManager.RoleExistsAsync("User");
                     if (!roleExists)
                     {
                         var roleResult = await _roleManager.CreateAsync(new IdentityRole(Input.SelectedRole));
@@ -164,7 +164,7 @@ namespace EGStore.Areas.Identity.Pages.Account
                     }
 
                     // Assign the role to the user
-                    var roleAssignmentResult = await _userManager.AddToRoleAsync(user, Input.SelectedRole);
+                    var roleAssignmentResult = await _userManager.AddToRoleAsync(user,"User");
                     if (!roleAssignmentResult.Succeeded)
                     {
                         // Log role assignment errors and show them to the user
