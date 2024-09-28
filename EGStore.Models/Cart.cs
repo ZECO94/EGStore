@@ -13,8 +13,10 @@ namespace EGStore.Models
         public int Count { get; set; }
         [ForeignKey("ApplicationUser")]
         public string ApplicationUserId { get; set; }
+        [ForeignKey("Product")]
+        public int ProductId { get; set; }
         public ApplicationUser? ApplicationUser { get; set; }
-        public IEnumerable<Product>? Products { get; set; }
+        public Product? Product { get; set; }
 
     }
 }

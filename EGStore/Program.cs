@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using EGStore.Utility;
 using EGStore.DataAccess.Repository;
 using EGStore.DataAccess.Repository.IRepository;
+using EGStore.Models;
 
 namespace EGStore
 {
@@ -19,8 +20,11 @@ namespace EGStore
             builder.Services.AddRazorPages();
             builder.Services.AddDbContext<ApplicationDbContext>(
         options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-            //builder.Services.AddScoped<IEmailSender, EmailSender>();
-            builder.Services.AddScoped<IBrandRepository,BrandRepository>();
+            /*builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();*/
+            builder.Services.AddScoped<IEmailSender, EmailSender>();
+            builder.Services.AddScoped<IBrandRepository, BrandRepository>();
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
             builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
@@ -29,7 +33,7 @@ namespace EGStore
             builder.Services.AddScoped<IOrderDetailsRepository, OrderDetailsRepository>();
             builder.Services.AddScoped<IWishListRepository, WishListRepository>();
             builder.Services.AddScoped<ICartRepository, CartRepository>();
-            
+
 
 
             ////GOOGLE Service
@@ -40,8 +44,9 @@ namespace EGStore
             });
 
 
-            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false).AddRoles<IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
-            
+            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+                .AddRoles<IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

@@ -17,6 +17,8 @@ namespace EGStore.DataAccess
         public DbSet<Review> reviews { get; set; }
         public DbSet<Shipping> shippings { get; set; }
         public DbSet<WishList> wishLists { get; set; }
+        
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
         {

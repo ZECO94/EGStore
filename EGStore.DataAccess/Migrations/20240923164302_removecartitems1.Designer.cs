@@ -4,6 +4,7 @@ using EGStore.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EGStore.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240923164302_removecartitems1")]
+    partial class removecartitems1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -62,14 +65,9 @@ namespace EGStore.DataAccess.Migrations
                     b.Property<int>("Count")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ApplicationUserId");
-
-                    b.HasIndex("ProductId");
 
                     b.ToTable("carts");
                 });
@@ -168,6 +166,9 @@ namespace EGStore.DataAccess.Migrations
                     b.Property<int>("BrandId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("CartId")
+                        .HasColumnType("int");
+
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
@@ -198,6 +199,8 @@ namespace EGStore.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("BrandId");
+
+                    b.HasIndex("CartId");
 
                     b.HasIndex("CategoryId");
 
@@ -321,19 +324,19 @@ namespace EGStore.DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "2f6322fc-fc93-4ad0-a48d-3209f597fe23",
+                            Id = "f337c8d7-3bbc-4abe-90e1-408932463cd8",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "a31cb3f7-d5ec-47b1-a53f-a09d692a0c79",
+                            Id = "735bd7b6-7e48-48d1-90e4-caa5ba94b613",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
-                            Id = "94419666-392a-4401-91f0-822b234d1851",
+                            Id = "0f0b7c62-6ddc-49a6-a4a9-0ac726848cc1",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -549,15 +552,7 @@ namespace EGStore.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EGStore.Models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("ApplicationUser");
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("EGStore.Models.Order", b =>
@@ -605,6 +600,10 @@ namespace EGStore.DataAccess.Migrations
                         .HasForeignKey("BrandId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("EGStore.Models.Cart", null)
+                        .WithMany("Products")
+                        .HasForeignKey("CartId");
 
                     b.HasOne("EGStore.Models.Category", "Category")
                         .WithMany("Products")
@@ -703,6 +702,11 @@ namespace EGStore.DataAccess.Migrations
                 });
 
             modelBuilder.Entity("EGStore.Models.Brand", b =>
+                {
+                    b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("EGStore.Models.Cart", b =>
                 {
                     b.Navigation("Products");
                 });

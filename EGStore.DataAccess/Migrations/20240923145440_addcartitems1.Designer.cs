@@ -4,6 +4,7 @@ using EGStore.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EGStore.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240923145440_addcartitems1")]
+    partial class addcartitems1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -59,19 +62,37 @@ namespace EGStore.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("Count")
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.ToTable("carts");
+                });
+
+            modelBuilder.Entity("EGStore.Models.CartItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CartId")
                         .HasColumnType("int");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("ApplicationUserId");
+                    b.HasIndex("CartId");
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("carts");
+                    b.ToTable("cartItem");
                 });
 
             modelBuilder.Entity("EGStore.Models.Category", b =>
@@ -321,19 +342,19 @@ namespace EGStore.DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "2f6322fc-fc93-4ad0-a48d-3209f597fe23",
+                            Id = "272c38fa-a771-42ef-8e1e-b273ee85bc74",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "a31cb3f7-d5ec-47b1-a53f-a09d692a0c79",
+                            Id = "2ca33976-cf6e-458a-83a9-b20f9f72eb90",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
-                            Id = "94419666-392a-4401-91f0-822b234d1851",
+                            Id = "728e47da-73a2-43c1-80f7-dcfc3f9ba282",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -549,13 +570,24 @@ namespace EGStore.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("ApplicationUser");
+                });
+
+            modelBuilder.Entity("EGStore.Models.CartItem", b =>
+                {
+                    b.HasOne("EGStore.Models.Cart", "Cart")
+                        .WithMany("CartItems")
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("EGStore.Models.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ApplicationUser");
+                    b.Navigation("Cart");
 
                     b.Navigation("Product");
                 });
@@ -705,6 +737,11 @@ namespace EGStore.DataAccess.Migrations
             modelBuilder.Entity("EGStore.Models.Brand", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("EGStore.Models.Cart", b =>
+                {
+                    b.Navigation("CartItems");
                 });
 
             modelBuilder.Entity("EGStore.Models.Category", b =>

@@ -119,17 +119,21 @@ namespace EGStore.Areas.Identity.Pages.Account
         {
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-            Roles = _roleManager.Roles.Select(r => new SelectListItem
+            if (User.IsInRole("Admin"))
             {
-                Value = r.Name,
-                Text = r.Name
-            }).ToList();
+                Roles = _roleManager.Roles.Select(r => new SelectListItem
+                {
+                    Value = r.Name,
+                    Text = r.Name
+                }).ToList();
+            }
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
@@ -138,12 +142,41 @@ namespace EGStore.Areas.Identity.Pages.Account
                 user.PhoneNumber = Input.PhoneNumber;
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
-                var result = await _userManager.CreateAsync(user, Input.Password);
 
+                var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(user, Input.SelectedRole);
-                    _logger.LogInformation("User created a new account with password.");
+                    // Check if the selected role exists, if not, create it (optional step)
+                    var roleExists = await _roleManager.RoleExistsAsync(Input.SelectedRole);
+                    if (!roleExists)
+                    {
+                        var roleResult = await _roleManager.CreateAsync(new IdentityRole(Input.SelectedRole));
+                        if (!roleResult.Succeeded)
+                        {
+                            // Log role creation errors and show them to the user
+                            foreach (var error in roleResult.Errors)
+                            {
+                                ModelState.AddModelError(string.Empty, error.Description);
+                            }
+                            // Redisplay the form if role creation fails
+                            return Page();
+                        }
+                    }
+
+                    // Assign the role to the user
+                    var roleAssignmentResult = await _userManager.AddToRoleAsync(user, Input.SelectedRole);
+                    if (!roleAssignmentResult.Succeeded)
+                    {
+                        // Log role assignment errors and show them to the user
+                        foreach (var error in roleAssignmentResult.Errors)
+                        {
+                            ModelState.AddModelError(string.Empty, error.Description);
+                        }
+                        // Redisplay the form if role assignment fails
+                        return Page();
+                    }
+
+                    _logger.LogInformation("User created a new account with password and assigned role.");
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -167,11 +200,15 @@ namespace EGStore.Areas.Identity.Pages.Account
                         return LocalRedirect(returnUrl);
                     }
                 }
+
+                // Display errors if user creation fails
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
+
+            // Reload roles in case of a failure during registration
             Roles = _roleManager.Roles.Select(r => new SelectListItem
             {
                 Value = r.Name,
@@ -181,6 +218,7 @@ namespace EGStore.Areas.Identity.Pages.Account
             // If we got this far, something failed, redisplay form
             return Page();
         }
+
 
         private ApplicationUser CreateUser()
         {

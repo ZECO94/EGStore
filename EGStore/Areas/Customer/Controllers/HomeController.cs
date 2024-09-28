@@ -1,3 +1,4 @@
+using EGStore.DataAccess.Repository.IRepository;
 using EGStore.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -11,10 +12,13 @@ namespace EGStore.Areas.Customer.Controllers
     {
         private readonly IEmailSender emailSender;
         private readonly ILogger<HomeController> _logger;
+        private readonly IProductRepository _productRepository;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger,
+            IProductRepository productRepository)
         {
             _logger = logger;
+            _productRepository = productRepository;
         }
 
         public IActionResult Index()
@@ -32,16 +36,16 @@ namespace EGStore.Areas.Customer.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-        //public HomeController(IEmailSender emailSender)
-        //{
-        //    this.emailSender = emailSender;
-        //}
+        public IActionResult Display()
+        {
+            var products = _productRepository.Get(null);
+            return View(products);
+        }
+        public IActionResult Details(int id)
+        {
+            var product = _productRepository.GetOne(x => x.Id == id);
+            return View(product);
+        }
 
-        //[HttpPost]
-        //public async Task<IActionResult> Index(string email, string subject, string message)
-        //{
-        //    await emailSender.SendEmailAsync(email, subject, message);
-        //    return View();
-        //}
     }
 }
