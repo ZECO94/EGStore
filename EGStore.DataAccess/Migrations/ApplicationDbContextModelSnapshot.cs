@@ -321,19 +321,19 @@ namespace EGStore.DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "2f6322fc-fc93-4ad0-a48d-3209f597fe23",
+                            Id = "37f16c0b-52d9-48a3-a693-edd79fff822b",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "a31cb3f7-d5ec-47b1-a53f-a09d692a0c79",
+                            Id = "0dac9a04-f69b-497b-a3a7-9dd21ec22801",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
-                            Id = "94419666-392a-4401-91f0-822b234d1851",
+                            Id = "de49b003-ac5d-4893-901f-b089a7a48de1",
                             Name = "User",
                             NormalizedName = "USER"
                         });

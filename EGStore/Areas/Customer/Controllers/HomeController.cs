@@ -46,6 +46,18 @@ namespace EGStore.Areas.Customer.Controllers
             var product = _productRepository.GetOne(x => x.Id == id);
             return View(product);
         }
+        public IActionResult About()
+        {
+            return View();
+        }
+        public IActionResult Blogs()
+        {
+            return View();
+        }
+        public IActionResult Contacts()
+        {
+            return View();
+        }
 
     }
 }

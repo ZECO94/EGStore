@@ -1,0 +1,116 @@
+﻿@{
+    Layout = "_PagesLayout";  // Ensure to use your existing layout
+    ViewData["Title"] = "Blogs";
+}
+
+<section class="blogs-section">
+    <div class="container">
+        <h2 class="section-title">Latest Blogs</h2>
+
+        <div class="blog-list">
+            <div class="row">
+                <!-- Example Blog Post 1 -->
+                <div class="col-md-4">
+                    <div class="blog-card">
+                        <img src="~/images/blogs1.png" alt="Blog Title 1" class="blog-img">
+                        <div class="blog-content">
+                            <h3 class="blog-title">The Ultimate Guide to Online Shopping</h3>
+                            <p class="blog-excerpt">
+                                Discover tips for finding the best deals online, managing your cart, and making safe payments.
+                            </p>
+                            <a href="#" class="read-more">Read More</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Example Blog Post 2-->
+                 <div class="col-md-4">
+                    <div class="blog-card">
+                        <img src="~/images/blogs3.png" alt="Blog Title 2" class="blog-img">
+                        <div class="blog-content">
+                            <h3 class="blog-title">Top 5 Labtop of 2024</h3>
+                            <p class="blog-excerpt">
+                                Stay ahead of the curve with these upcoming fashion trends for the year.
+                            </p>
+                            <a href="#" class="read-more">Read More</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Example Blog Post 3 -->
+                <div class="col-md-4">
+                    <div class="blog-card">
+                        <img src="~/images/blogs2.png" alt="Blog Title 3" class="blog-img">
+                        <div class="blog-content">
+                            <h3 class="blog-title">How to Choose the Right Electronics</h3>
+                            <p class="blog-excerpt">
+                                A complete guide to finding the best electronics based on your needs and budget.
+                            </p>
+                            <a href="#" class="read-more">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pagination">
+            <a href="#" class="prev-page">« Previous</a>
+            <a href="#" class="next-page">Next »</a>
+        </div>
+    </div>
+</section>
+
+<!-- Styles (can be added to your CSS file) -->
+<style>
+    .blogs-section {
+        padding: 50px 0;
+    }
+
+    .blog-card {
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        padding: 15px;
+        text-align: center;
+    }
+
+    .blog-img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px 8px 0 0;
+    }
+
+    .blog-title {
+        font-size: 1.5rem;
+        margin: 15px 0;
+        color: #333;
+    }
+
+    .blog-excerpt {
+        font-size: 1rem;
+        color: #666;
+    }
+
+    .read-more {
+        display: inline-block;
+        margin-top: 10px;
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    .pagination {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+        .pagination a {
+            padding: 10px 15px;
+            margin: 0 5px;
+            background: #f5f5f5;
+            color: #333;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+</style>
+

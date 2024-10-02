@@ -6,6 +6,7 @@ using EGStore.Utility;
 using EGStore.DataAccess.Repository;
 using EGStore.DataAccess.Repository.IRepository;
 using EGStore.Models;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace EGStore
 {

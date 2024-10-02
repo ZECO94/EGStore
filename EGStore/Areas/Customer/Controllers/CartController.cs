@@ -4,6 +4,8 @@ using EGStore.Models;
 using System.Linq;
 using System.Threading.Tasks;
 using EGStore.DataAccess.Repository.IRepository;
+using Newtonsoft.Json;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EGStore.Areas.Customer.Controllers
 {
@@ -12,62 +14,69 @@ namespace EGStore.Areas.Customer.Controllers
     {
         private readonly ICartRepository _cartRepository;
         private readonly IProductRepository _productRepository;
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public CartController(ICartRepository cartRepository, IProductRepository productRepository, UserManager<ApplicationUser> userManager)
+        public CartController(ICartRepository cartRepository, IProductRepository productRepository, UserManager<IdentityUser> userManager)
         {
             _cartRepository = cartRepository;
             _productRepository = productRepository;
             _userManager = userManager;
         }
-
-        // Index action to display cart items
-        public async Task<IActionResult> Index()
+        public IActionResult Index(int id)
         {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
+            var userId = _userManager.GetUserId(User);
+            if (id != 0)
             {
-                return RedirectToAction("Login", "Account", new { area = "Identity" });
-            }
-
-            var userId = user.Id;
-            var cartItems = _cartRepository.Get(c => c.ApplicationUserId == userId, c => c.Product);
-            ViewBag.Total = cartItems.Sum(x => x.Count * x.Product.Price);
-
-            return View(cartItems);
-        }
-
-        // Add a product to the cart
-        public async Task<IActionResult> AddToCart(int productId)
-        {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-            {
-                return RedirectToAction("Login", "Account", new { area = "Identity" });
-            }
-
-            var userId = user.Id;
-            var product = _productRepository.GetOne(p => p.Id == productId);
-
-            if (product != null)
-            {
-                Cart cart = new()
+                if (userId == null)
                 {
-                    ProductId = product.Id,
+                    return RedirectToAction("Login", "Account");
+                }
+                Cart newCart = new Cart()
+                {
+                    ProductId = id,
+                    Count = 1,
                     ApplicationUserId = userId,
-                    Count = 1
                 };
-
-                _cartRepository.Add(cart);
+                _cartRepository.Add(newCart);
+                return RedirectToAction("Display", "Home");
             }
-
+            var result = _cartRepository.Get(x => x.ApplicationUserId == userId,x=>x.Product);
+            return View(result); 
+        }
+        public IActionResult Increment(int id)
+        {
+            var cartItem = _cartRepository.Get(c => c.Id == id).FirstOrDefault();
+            if (cartItem != null)
+            {
+                cartItem.Count++;
+                _cartRepository.Update(cartItem);
+            }
             return RedirectToAction(nameof(Index));
         }
 
-        // Remove an item from the cart
-        public async Task<IActionResult> RemoveFromCart(int id)
+        // Decrease Product Quantity in Cart
+        public IActionResult DecreaseQuantity(int id)
         {
-            var cartItem = _cartRepository.GetOne(c => c.Id == id);
+            var cartItem = _cartRepository.Get(c => c.Id == id).FirstOrDefault();
+            if (cartItem != null)
+            {
+                if (cartItem.Count > 1)
+                {
+                    cartItem.Count--;
+                    _cartRepository.Update(cartItem);
+                }
+                else
+                {
+                    _cartRepository.Remove(cartItem);
+                }
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
+        // Remove Product from Cart
+        public IActionResult Remove(int id)
+        {
+            var cartItem = _cartRepository.Get(c => c.Id == id).FirstOrDefault();
             if (cartItem != null)
             {
                 _cartRepository.Remove(cartItem);
@@ -75,18 +84,15 @@ namespace EGStore.Areas.Customer.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // Update item quantity in the cart
-        public async Task<IActionResult> UpdateQuantity(int id, int quantity)
-        {
-            var cartItem = _cartRepository.GetOne(c => c.Id == id);
-            if (cartItem != null && quantity > 0)
-            {
-                cartItem.Count = quantity;
-                _cartRepository.Update(cartItem);
-            }
 
-            return RedirectToAction(nameof(Index));
-        }
+
+
+
+
+
+
+
+
     }
 }
 
