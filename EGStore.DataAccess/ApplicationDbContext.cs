@@ -15,7 +15,6 @@ namespace EGStore.DataAccess
         public DbSet<OrderDetails> orderDetails { get; set; }
         public DbSet<Cart> carts { get; set; }
         public DbSet<Review> reviews { get; set; }
-        public DbSet<Shipping> shippings { get; set; }
         public DbSet<WishList> wishLists { get; set; }
         
 

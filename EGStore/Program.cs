@@ -29,7 +29,7 @@ namespace EGStore
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
             builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
-            builder.Services.AddScoped<IShippingRepository, ShippingRepository>();
+            
             builder.Services.AddScoped<IOrderRepository, OrderRepository>();
             builder.Services.AddScoped<IOrderDetailsRepository, OrderDetailsRepository>();
             builder.Services.AddScoped<IWishListRepository, WishListRepository>();

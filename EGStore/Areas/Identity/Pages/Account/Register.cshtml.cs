@@ -140,7 +140,7 @@ namespace EGStore.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
-                user.FullName = Input.UserName;
+                user.Name = Input.UserName;
                 user.Address = Input.Address;
                 user.PhoneNumber = Input.PhoneNumber;
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);

@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<Cart>
 
 @{
+    Layout = "_PagesLayout";
     ViewData["Title"] = "Your Cart";
 }
 
@@ -25,16 +26,16 @@
                     <tr>
                         <td>
                             <div class="d-flex align-items-center">
-                                <img src="~/Imgs/@cartItem.Product.Image" alt="@cartItem.Product.ProductName" class="img-fluid" style="width: 80px; height: 80px; object-fit: cover; margin-right: 15px;">
+                                <img src="~/Images/@cartItem.Product.Image" alt="@cartItem.Product.ProductName" class="img-fluid" style="width: 80px; height: 80px; object-fit: cover; margin-right: 15px;">
                                 <span>@cartItem.Product.ProductName</span>
                             </div>
                         </td>
                         <td>@cartItem.Product.Price $</td>
                         <td>@cartItem.Count</td>
-                        <td>@(cartItem.Count * cartItem.Product.Price) $</td>
+                        <td>@((cartItem.Count * cartItem.Product.Price).ToString("0.00")) $</td>
                         <td>
                             <div class="btn-group">
-                                <a href="@Url.Action("Incrememt", "Cart", new { id = cartItem.Id })" class="btn btn-sm btn-success">
+                                <a href="@Url.Action("Increment", "Cart", new { id = cartItem.Id })" class="btn btn-sm btn-success">
                                     <i class="bi bi-plus"></i>
                                 </a> |
                                 <a href="@Url.Action("DecreaseQuantity", "Cart", new { id = cartItem.Id })" class="btn btn-sm btn-warning">
@@ -53,7 +54,7 @@
 
         <div class="d-flex justify-content-between align-items-center mt-4">
             <a href="@Url.Action("Display", "Home")" class="btn btn-secondary">Continue Shopping</a>
-            <a href="@Url.Action("Checkout", "Order")" class="btn btn-primary">Proceed to Checkout</a>
+            <a href="@Url.Action("Summary", "Cart")" class="btn btn-primary">Summary</a>
         </div>
     }
     else

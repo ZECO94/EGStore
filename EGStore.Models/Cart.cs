@@ -20,6 +20,7 @@ namespace EGStore.Models
         public int ProductId { get; set; }
         public ApplicationUser? ApplicationUser { get; set; }
         public Product? Product { get; set; }
+        public Order? Order { get; set; }
 
     }
 }

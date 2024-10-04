@@ -38,12 +38,12 @@ namespace EGStore.Areas.Customer.Controllers
         }
         public IActionResult Display()
         {
-            var products = _productRepository.Get(null);
+            var products = _productRepository.Get(null, x => x.Brand, x => x.Category);
             return View(products);
         }
         public IActionResult Details(int id)
         {
-            var product = _productRepository.GetOne(x => x.Id == id);
+            var product = _productRepository.GetOne(x => x.Id == id,x => x.Brand, x => x.Category);
             return View(product);
         }
         public IActionResult About()
