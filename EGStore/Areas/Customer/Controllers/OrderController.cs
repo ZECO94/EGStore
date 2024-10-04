@@ -26,7 +26,7 @@ namespace EGStore.Areas.Customer.Controllers
         }
         public async Task<IActionResult> OrderDetails(int id)
         {
-            var orderDetails = _orderDetailsRepository.Get(x => x.OrderId == id, x => x.Product);
+            var orderDetails = _orderDetailsRepository.Get(x => x.OrderId == id, x => x.Product,x=>x.Order);
 
             if (orderDetails == null || !orderDetails.Any())
             {

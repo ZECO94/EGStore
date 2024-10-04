@@ -10,13 +10,13 @@
     <div class="container mt-5">
         <h2 class="mb-4">Order Details</h2>
 
-        <p><strong>Order Date:</strong> @Model.FirstOrDefault().Order.OrderDate.ToString("dd/MM/yyyy")</p>
-        <p><strong>Shipping Date:</strong> @Model.First().Order.ShippingDate.ToString("dd/MM/yyyy")</p>
-        <p><strong>Total Price:</strong> @Model.First().Order.TotalPrice $</p>
-        <p><strong>Status:</strong> @Model.First().Order.OrderStatus</p>
-        <p><strong>Name:</strong> @Model.First().Order.Name</p>
-        <p><strong>Address:</strong> @Model.First().Order.Address</p>
-        <p><strong>Phone:</strong> @Model.First().Order.PhoneNumber</p>
+        <p><strong>Order Date:</strong> @Model?.FirstOrDefault().Order.OrderDate.ToString("dd/MM/yyyy")</p>
+        <p><strong>Shipping Date:</strong> @Model?.First().Order.ShippingDate.ToString("dd/MM/yyyy")</p>
+        <p><strong>Total Price:</strong> @Model?.First().Order.TotalPrice $</p>
+        <p><strong>Status:</strong> @Model?.First().Order.OrderStatus</p>
+        <p><strong>Name:</strong> @Model?.First().Order.Name</p>
+        <p><strong>Address:</strong> @Model?.First().Order.Address</p>
+        <p><strong>Phone:</strong> @Model?.First().Order.PhoneNumber</p>
 
         <h3>Order Items</h3>
         <table class="table table-striped">
