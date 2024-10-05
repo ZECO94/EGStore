@@ -7,6 +7,7 @@ using EGStore.DataAccess.Repository;
 using EGStore.DataAccess.Repository.IRepository;
 using EGStore.Models;
 using Microsoft.Extensions.DependencyInjection;
+using Stripe;
 
 namespace EGStore
 {
@@ -47,6 +48,9 @@ namespace EGStore
 
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+            builder.Services.Configure<StripeSetting>(builder.Configuration.GetSection("Stripe"));
+            StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
+
 
             var app = builder.Build();
 

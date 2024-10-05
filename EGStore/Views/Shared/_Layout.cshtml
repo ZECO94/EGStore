@@ -220,6 +220,9 @@
                    <li class="nav-item">
                       <a class="nav-link me-4" asp-area="Customer" asp-action="Index" asp-controller="Cart"><i class="bi bi-cart3"></i></a>
                    </li>
+                   <li class="nav-item">
+                     <a class="nav-link me-4" asp-area="Customer" asp-action="Index" asp-controller="Order"><i class="bi bi-list-ul"></i> Orders</a>
+                   </li>
                 }
                 @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
                 {

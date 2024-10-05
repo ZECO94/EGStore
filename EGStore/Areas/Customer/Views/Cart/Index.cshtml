@@ -54,7 +54,10 @@
 
         <div class="d-flex justify-content-between align-items-center mt-4">
             <a href="@Url.Action("Display", "Home")" class="btn btn-secondary">Continue Shopping</a>
-            <a href="@Url.Action("Summary", "Cart")" class="btn btn-primary">Summary</a>
+            <form asp-action="Payment" method="post">
+                <button type="submit" class="btn btn-primary">Proceed to Payment</button>
+            </form>
+
         </div>
     }
     else

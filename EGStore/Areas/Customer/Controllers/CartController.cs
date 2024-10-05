@@ -10,6 +10,8 @@ using Microsoft.EntityFrameworkCore;
 //using EGStore.Models.ViewModels;
 using EGStore.DataAccess.Repository;
 using EGStore.Utility;
+using Stripe.Checkout;
+//using EGStore.Models.ViewModel;
 
 namespace EGStore.Areas.Customer.Controllers
 {
@@ -42,7 +44,7 @@ namespace EGStore.Areas.Customer.Controllers
             }
             if (id != 0)
             {
-                
+
                 Cart newCart = new Cart()
                 {
                     ProductId = id,
@@ -52,8 +54,9 @@ namespace EGStore.Areas.Customer.Controllers
                 _cartRepository.Add(newCart);
                 return RedirectToAction("Display", "Home");
             }
-            var result = _cartRepository.Get(x => x.ApplicationUserId == userId,x=>x.Product);
-            return View(result); 
+            var result = _cartRepository.Get(x => x.ApplicationUserId == userId, x => x.Product);
+            TempData["Cart"] = JsonConvert.SerializeObject(result);
+            return View(result);
         }
         public IActionResult Increment(int id)
         {
@@ -95,75 +98,45 @@ namespace EGStore.Areas.Customer.Controllers
             }
             return RedirectToAction(nameof(Index));
         }
-        public IActionResult Summary()
-        {
-            var userId = _userManager.GetUserId(User);
-            if (userId == null)
-            {
-                return RedirectToAction("Login", "Account");
-            }
-            var cartItems =  _cartRepository.Get(x => x.ApplicationUserId == userId, x => x.Product);
-            
-            if (!cartItems.Any())
-            {
-                TempData["Error"] = "Your cart is empty!";
-                return RedirectToAction("Index", "Cart");
-            }
-            return View(cartItems);
-        }
-        [HttpPost]
-        [HttpPost]
-        public async Task<IActionResult> PlaceOrder()
-        {
-            // Get the current user's cart
-            var userId = _userManager.GetUserId(User); // Assuming you're using Identity
-            var cartItems = _cartRepository.Get(x => x.ApplicationUserId == userId, c => c.Product);
-            if (cartItems == null || !cartItems.Any())
-            {
-                return RedirectToAction("Summary", "Cart"); // Redirect if the cart is empty
-            }
 
-            // Calculate the total price
-            double totalPrice = cartItems.Sum(c => c.Count * c.Product.Price);
-
-            // Create a new Order
-            var order = new Order
+        //Payment Simulation Using Stripe
+        public IActionResult Payment()
+        {
+            var options = new SessionCreateOptions
             {
-                ApplicationUserId = userId,
-                OrderDate = DateTime.Now,
-                ShippingDate = DateTime.Now.AddDays(3), // Assume 3 days shipping
-                TotalPrice = totalPrice,
-                OrderStatus = OrderStatus.Processing,
-                Name = "User Name", 
-                Address = "User Address", 
-                PhoneNumber = "User Phone",
-                PaymentDate = DateTime.Now,
-                PaymentDueDate = DateOnly.FromDateTime(DateTime.Now.AddDays(30)) 
+                PaymentMethodTypes = new List<string> { "card" },
+                LineItems = new List<SessionLineItemOptions>(),
+                Mode = "payment",
+                SuccessUrl = $"{Request.Scheme}://{Request.Host}/checkout/success",
+
+
+                CancelUrl = $"{Request.Scheme}://{Request.Host}/checkout/cancel",
             };
-
-            // Save the order to the database
-            _orderRepository.Add(order);
-
-            // Save the order details
-            foreach (var item in cartItems)
+            string cart = (string)TempData["Cart"];
+            var items = JsonConvert.DeserializeObject<IEnumerable<Cart>>(cart);
+            foreach (var model in items)
             {
-                var orderDetails = new OrderDetails
+                var result = new SessionLineItemOptions
                 {
-                    OrderId = order.Id,
-                    ProductId = item.ProductId,
-                    ProductsQuantity = item.Count,
-                    UnitPrice = item.Product.Price
+                    PriceData = new SessionLineItemPriceDataOptions
+                    {
+                        Currency = "usd",
+                        ProductData = new SessionLineItemPriceDataProductDataOptions
+                        {
+                            Name = model.Product.ProductName,
+                            Description = model.Product.ProductDescription,
+                        },
+                        UnitAmount = (long)model.Product.Price
+                    },
+                    Quantity = model.Count,
                 };
-
-                _orderDetailsRepository.Add(orderDetails);
+                options.LineItems.Add(result);
             }
-
-            // Optionally, clear the cart
-            _cartRepository.RemoveRange(cartItems);
-
-            // Redirect to OrderDetails page with the newly created OrderId
-            return RedirectToAction("OrderDetails", "Order", new { id = order.Id });
+            var service = new SessionService();
+            var session = service.Create(options);
+            return Redirect(session.Url);
         }
+
 
 
 

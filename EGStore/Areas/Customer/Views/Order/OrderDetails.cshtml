@@ -5,46 +5,79 @@
     ViewData["Title"] = "Order Details";
 }
 
-@if (Model != null && Model.Any())
-{
-    <div class="container mt-5">
-        <h2 class="mb-4">Order Details</h2>
+<div class="container mt-5">
+    <div class="row">
+        <!-- Order Summary Card -->
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h4 class="card-title mb-3">Order Summary</h4>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <strong>Order Date:</strong> @Model.First().Order.OrderDate.ToString("dd/MM/yyyy")
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Shipping Date:</strong> @Model.First().Order.ShippingDate.ToString("dd/MM/yyyy")
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Total Price:</strong> @Model.First().Order.TotalPrice $
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Status:</strong>
+                            <span class="badge bg-info text-dark">@Model.First().Order.OrderStatus</span>
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Customer:</strong> @Model.First().Order.Name
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Shipping Address:</strong> @Model.First().Order.Address
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Phone:</strong> @Model.First().Order.PhoneNumber
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 
-        <p><strong>Order Date:</strong> @Model?.FirstOrDefault().Order.OrderDate.ToString("dd/MM/yyyy")</p>
-        <p><strong>Shipping Date:</strong> @Model?.First().Order.ShippingDate.ToString("dd/MM/yyyy")</p>
-        <p><strong>Total Price:</strong> @Model?.First().Order.TotalPrice $</p>
-        <p><strong>Status:</strong> @Model?.First().Order.OrderStatus</p>
-        <p><strong>Name:</strong> @Model?.First().Order.Name</p>
-        <p><strong>Address:</strong> @Model?.First().Order.Address</p>
-        <p><strong>Phone:</strong> @Model?.First().Order.PhoneNumber</p>
-
-        <h3>Order Items</h3>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Product</th>
-                    <th>Quantity</th>
-                    <th>Unit Price</th>
-                    <th>Total</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>@item.Product.ProductName</td>
-                        <td>@item.ProductsQuantity</td>
-                        <td>@item.UnitPrice $</td>
-                        <td>@(item.ProductsQuantity * item.UnitPrice) $</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-
-        <a href="@Url.Action("Index", "Home")" class="btn btn-primary">Continue Shopping</a>
+        <!-- Order Items Card -->
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h4 class="card-title mb-3">Order Items</h4>
+                    <table class="table align-middle mb-0 table-bordered table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th scope="col">Product</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Unit Price</th>
+                                <th scope="col">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.Product.ProductName</td>
+                                    <td>@item.ProductsQuantity</td>
+                                    <td>@item.UnitPrice $</td>
+                                    <td>@(item.ProductsQuantity * item.UnitPrice) $</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
-}
-else
-{
-    <div class="alert alert-warning">No order details available.</div>
-}
+
+    <!-- Actions -->
+    <div class="d-flex justify-content-between mt-4">
+        <a href="@Url.Action("Index", "Home")" class="btn btn-primary btn-lg">
+            <i class="bi bi-arrow-left-circle"></i> Continue Shopping
+        </a>
+        <a asp-area="Customer" asp-action="Pay" asp-controller="Cart" class="btn btn-outline-secondary btn-lg">
+            <i class="bi bi-bank"></i> Pay
+        </a>
+    </div>
+</div>
