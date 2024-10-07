@@ -1,0 +1,58 @@
+﻿@model IEnumerable<WishList>
+
+@{
+    Layout = "_PagesLayout";
+    ViewData["Title"] = "My Wishlist";
+}
+
+<div class="container mt-4">
+    <h2>My Wishlist</h2>
+
+    @if (!Model.Any())
+    {
+        <p>Your wishlist is empty.</p>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <!-- Product Image -->
+                        <img src="~/Images/@item.Product.Image" class="card-img-top" alt="@item.Product.ProductName" style="height: 200px; object-fit: cover;">
+
+                        <div class="card-body">
+                            <!-- Product Name -->
+                            <h5 class="card-title">@item.Product.ProductName</h5>
+
+                            <!-- Product Price -->
+                            <p class="card-text"><strong>Price: </strong>@item.Product.Price.ToString("C")</p>
+
+                            <!-- Product Brand and Category -->
+                            <p class="card-text">
+                                <strong>Brand:</strong> @item.Product.Brand?.BrandName <br />
+                                <strong>Category:</strong> @item.Product.Category?.CategoryName
+                            </p>
+                        </div>
+
+                        <div class="card-footer">
+                            <!-- View Details button -->
+                            <a asp-area="Customer" asp-controller="Home" asp-action="Details" asp-route-id="@item.Product.Id" class="btn btn-primary">
+                                <i class="bi bi-arrow-down-right-circle-fill"></i> View Details
+                            </a>
+
+                            <!-- Remove from Wishlist button -->
+                            <form asp-action="RemoveFromWishList" asp-controller="WishList" method="post" class="d-inline">
+                                <input type="hidden" name="productId" value="@item.ProductId" />
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="bi bi-trash"></i> Remove
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

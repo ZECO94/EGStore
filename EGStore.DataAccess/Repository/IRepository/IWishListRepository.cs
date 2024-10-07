@@ -9,5 +9,6 @@ namespace EGStore.DataAccess.Repository.IRepository
 {
     public interface IWishListRepository : IRepository<WishList>
     {
+        
     }
 }

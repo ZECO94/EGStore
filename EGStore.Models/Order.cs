@@ -23,6 +23,9 @@ namespace EGStore.Models
         public OrderStatus OrderStatus { get; set; }
         public string? TrackingNumber { get; set; }
         public string? DeliveringAgent {  get; set; }
+        public string? AgentContact { get; set; }
+
+
         public DateTime PaymentDate { get; set; }
         public DateOnly PaymentDueDate { get; set; }
         public string? PaymentId { get; set; }

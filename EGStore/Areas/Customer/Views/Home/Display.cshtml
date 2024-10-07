@@ -36,6 +36,12 @@
                         <a asp-area="Customer" asp-action="Details" asp-controller="Home" asp-route-id="@product.Id" class="btn btn-primary">
                             <i class="bi bi-arrow-down-right-circle-fill"></i> View Details
                         </a>
+                        <form asp-action="AddToWishList" asp-controller="WishList" method="post" class="d-inline">
+                            <input type="hidden" name="productId" value="@product.Id" />
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-bag-heart"></i> Add To WishList
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>

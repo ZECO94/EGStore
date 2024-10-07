@@ -40,22 +40,22 @@ namespace EGStore.Areas.Customer.Controllers
 
             return View(orders);
         }
-        //public async Task<IActionResult> OrderDetails(int id)
-        //{
-        //    var orderDetails = _orderDetailsRepository.Get(x => x.OrderId == id, x => x.Product,x=>x.Order);
+        public async Task<IActionResult> OrderDetails(int id)
+        {
+            var orderDetails = _orderDetailsRepository.Get(x => x.OrderId == id, x => x.Product, x => x.Order);
 
-        //    if (orderDetails == null || !orderDetails.Any())
-        //    {
-        //        return NotFound();
-        //    }
-
-            
-        //    return View(orderDetails);
-        //}
+            if (orderDetails == null || !orderDetails.Any())
+            {
+                return NotFound();
+            }
 
 
+            return View(orderDetails);
+        }
 
-       
-        
+
+
+
+
     }
 }

@@ -13,5 +13,7 @@ namespace EGStore.DataAccess.Repository
         public WishListRepository(ApplicationDbContext context) : base(context)
         {
         }
+
+        
     }
 }

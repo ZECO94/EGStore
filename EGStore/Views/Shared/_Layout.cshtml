@@ -177,9 +177,9 @@
                 <li class="nav-item">
                   <a class="nav-link me-4" asp-area="Customer" asp-action="About" asp-controller="Home">About</a>
                 </li>
-                <li class="nav-item">
+                @* <li class="nav-item">
                   <a class="nav-link me-4" asp-area="Customer" asp-action="Display" asp-controller="Home">Shop</a>
-                </li>
+                </li> *@
                 <li class="nav-item">
                   <a class="nav-link me-4" asp-area="Customer" asp-action="Blogs" asp-controller="Home">Blogs</a>
                 </li>
@@ -223,6 +223,9 @@
                    <li class="nav-item">
                      <a class="nav-link me-4" asp-area="Customer" asp-action="Index" asp-controller="Order"><i class="bi bi-list-ul"></i> Orders</a>
                    </li>
+                   <li class="nav-item">
+                      <a class="nav-link me-4" asp-area="Customer" asp-action="Index" asp-controller="WishList"><i class="bi bi-bag-heart"></i></a>
+                   </li>
                 }
                 @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
                 {
@@ -233,11 +236,8 @@
                             <a class="nav-link me-4" asp-area="Admin" asp-action="Index" asp-controller="Category">Categories</a>
                             <a class="nav-link me-4" asp-area="Admin" asp-action="Index" asp-controller="Brand">Brands</a>
                             <a class="nav-link me-4" asp-area="Admin" asp-action="Index" asp-controller="Product">Products</a>
-                            <a class="nav-link me-4" asp-area="Admin" asp-action="" asp-controller=""></a>
-                            <a class="nav-link me-4" asp-area="Admin" asp-action="" asp-controller=""></a>
-                            <a class="nav-link me-4" asp-area="Admin" asp-action="" asp-controller=""></a>
-                            <a class="nav-link me-4" asp-area="Admin" asp-action="" asp-controller="Shipping">Shipping</a>
-                                @if (User.IsInRole("Admin"))
+                            <a class="nav-link me-4" asp-area="Admin" asp-action="Index" asp-controller="Order">Orders</a>
+                            @if (User.IsInRole("Admin"))
                                 {
                                    <a class="nav-link me-4" asp-area="Identity" asp-page="/Account/Register">Add User</a>
                                 }

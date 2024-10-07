@@ -30,10 +30,19 @@
                             <strong>Customer:</strong> @Model.First().Order.Name
                         </li>
                         <li class="list-group-item">
+                            <strong>City:</strong> @Model.First().Order.City
+                        </li>
+                        <li class="list-group-item">
                             <strong>Shipping Address:</strong> @Model.First().Order.Address
                         </li>
                         <li class="list-group-item">
                             <strong>Phone:</strong> @Model.First().Order.PhoneNumber
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Delivery Agent:</strong> @Model.First().Order.DeliveringAgent
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Agent Contact:</strong> @Model.First().Order.AgentContact
                         </li>
                     </ul>
                 </div>
@@ -76,8 +85,8 @@
         <a href="@Url.Action("Index", "Home")" class="btn btn-primary btn-lg">
             <i class="bi bi-arrow-left-circle"></i> Continue Shopping
         </a>
-        <a asp-area="Customer" asp-action="Pay" asp-controller="Cart" class="btn btn-outline-secondary btn-lg">
+        @* <a asp-area="Customer" asp-action="Pay" asp-controller="Cart" class="btn btn-outline-secondary btn-lg">
             <i class="bi bi-bank"></i> Pay
-        </a>
+        </a> *@
     </div>
 </div>
