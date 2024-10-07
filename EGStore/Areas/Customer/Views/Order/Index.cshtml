@@ -1,1 +1,52 @@
-﻿
+﻿@{
+    Layout = "_PagesLayout";
+}
+@model IEnumerable<OrderDetails>
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">My Orders</h2>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-warning text-center" role="alert">
+            You have no orders yet.
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var orderGroup in Model.GroupBy(o => o.OrderId))
+            {
+                var firstOrderDetail = orderGroup.First();
+                <div class="col-md-6 mb-4">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-primary text-white">
+                            @* <h5 class="mb-0">Order #@firstOrderDetail.OrderId</h5> *@
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Order Date:</strong> @firstOrderDetail.Order?.OrderDate.ToShortDateString()</p>
+                            <p><strong>Total Price:</strong> $@firstOrderDetail.Order?.TotalPrice</p>
+                            <p><strong>Status:</strong> <span class="badge badge-info">@firstOrderDetail.Order?.OrderStatus</span></p>
+
+                            <h6>Order Items:</h6>
+                            <ul class="list-group list-group-flush">
+                                @foreach (var item in orderGroup)
+                                {
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        @item.Product.ProductName
+                                        <span>
+                                            <span class="badge badge-primary">@item.ProductsQuantity x $@item.Product.Price</span>
+                                        </span>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                        <div class="card-footer text-right">
+                            <a href="@Url.Action("OrderDetails", "Order", new { id = firstOrderDetail.OrderId })" class="btn btn-outline-primary btn-sm">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

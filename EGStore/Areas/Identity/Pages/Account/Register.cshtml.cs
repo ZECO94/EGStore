@@ -80,7 +80,7 @@ namespace EGStore.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
-            public string UserName { get; set; }
+            public string Name { get; set; }
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
@@ -108,11 +108,16 @@ namespace EGStore.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+            public string City { get; set; }
             public string Address { get; set; }
+            public string PostalCode { get; set; }
             public string PhoneNumber { get; set; }
             [Display(Name = "Role")]
             [ValidateNever]
             public string SelectedRole { get; set; }
+            
+            
+
         }
 
         public List<SelectListItem> Roles { get; set; }
@@ -140,9 +145,13 @@ namespace EGStore.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
-                user.Name = Input.UserName;
+                user.Name = Input.Name;
                 user.Address = Input.Address;
                 user.PhoneNumber = Input.PhoneNumber;
+                user.Email = Input.Email;
+                user.City = Input.City;
+                user.PostalCode = Input.PostalCode;
+
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
 

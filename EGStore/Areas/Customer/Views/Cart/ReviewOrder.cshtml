@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Cart>
+
+@{
+    Layout = "_PagesLayout";
+    ViewData["Title"] = "Review Order";
+}
+
+<div class="container mt-5">
+    <h2 class="mb-4">Review Your Order</h2>
+
+    @if (Model != null && Model.Any())
+    {
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Product</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var cartItem in Model)
+                {
+                    <tr>
+                        <td>@cartItem.Product.ProductName</td>
+                        <td>@cartItem.Product.Price $</td>
+                        <td>@cartItem.Count</td>
+                        <td>@((cartItem.Count * cartItem.Product.Price).ToString("0.00")) $</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="d-flex justify-content-between align-items-center mt-4">
+            <a href="@Url.Action("Index", "Cart")" class="btn btn-secondary">Back to Cart</a>
+
+            <!-- Form to place the order -->
+            <form asp-action="ConfirmOrder" method="post">
+                <button type="submit" class="btn btn-primary">Confirm Order</button>
+            </form>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info text-center" role="alert">
+            Your cart is empty. <a href="@Url.Action("Index", "Home")" class="alert-link">Start shopping now!</a>
+        </div>
+    }
+</div>
