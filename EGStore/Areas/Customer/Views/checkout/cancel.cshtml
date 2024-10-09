@@ -1,6 +1,38 @@
 ﻿@{
     Layout = "_PagesLayout";
-    ViewData["Title"] = "Payment Canceled";
+    ViewData["Title"] = "Payment Faild";
 }
-<h2>Payment Canceled</h2>
-<p>Your payment has been canceled. Please try again or contact support if you need assistance.</p>
+
+<style>
+    .background-container {
+        background-image: url('@Url.Content("~/logo/Cancel.png")');
+        background-size: cover;
+        background-position: center;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .success-content {
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 30px;
+        border-radius: 10px;
+        text-align: center;
+    }
+
+    h2 {
+        color: red;
+    }
+
+    p {
+        font-size: 18px;
+        color: #333;
+    }
+</style>
+<div class="background-container">
+    <div class="cancel-content">
+        <h2>Payment Faild</h2>
+        <p>Your payment has not been successfully processed.</p>
+    </div>
+</div>

@@ -2,7 +2,8 @@
 
 namespace EGStore.Areas.Customer.Controllers
 {
-    public class checkoutController : Controller
+    [Area("Customer")]
+    public class CheckoutController : Controller
     {
         public IActionResult success()
         {

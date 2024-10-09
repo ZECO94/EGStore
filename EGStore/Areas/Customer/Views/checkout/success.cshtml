@@ -1,35 +1,28 @@
-﻿@* @{
-    Layout = "_PagesLayout";
-    ViewData["Title"] = "Payment Successful";
-}
-<h2>Payment Successful</h2>
-<p>Thank you for your purchase! Your payment has been successfully processed.</p> *@
-@{
+﻿@{
     Layout = "_PagesLayout";
     ViewData["Title"] = "Payment Successful";
 }
 
 <style>
-    /* Full-page background image */
     .background-container {
-        background-image: url('/logo/Success.png'); /* Replace with your image path */
+        background-image: url('@Url.Content("~/logo/Success.png")'); 
         background-size: cover;
         background-position: center;
-        min-height: 100vh; /* Full viewport height */
+        min-height: 100vh;
         display: flex;
         justify-content: center;
         align-items: center;
     }
 
     .success-content {
-        background-color: rgba(255, 255, 255, 0.8); /* White background with opacity */
+        background-color: rgba(255, 255, 255, 0.8);
         padding: 30px;
         border-radius: 10px;
         text-align: center;
     }
 
     h2 {
-        color: #28a745; /* Green for success */
+        color: #28a745;
     }
 
     p {
@@ -38,12 +31,13 @@
     }
 </style>
 
+
 <div class="background-container">
     <div class="success-content">
         <h2>Payment Successful</h2>
         <p>Thank you for your purchase! Your payment has been successfully processed.</p>
 
         <a href="/" class="btn btn-primary mt-3">Continue Shopping</a>
-        <a href="/Order/Details" class="btn btn-secondary mt-3">View Your Order</a>
+        <a href="/Customer/Order/Index" class="btn btn-secondary mt-3">View Your Order</a>
     </div>
 </div>
