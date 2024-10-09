@@ -96,6 +96,11 @@ namespace EGStore.Areas.Customer.Controllers
             return View("Details", product);
 
         }
+        public IActionResult Search(string query)
+        {
+            var product = _productRepository.Get(x=>x.ProductName == query,x=>x.Category,x=>x.Brand);
+            return View("Display", product);
+        }
 
 
     }

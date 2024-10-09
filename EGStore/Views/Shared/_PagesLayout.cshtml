@@ -40,27 +40,12 @@
                             <a class="nav-link me-4" asp-area="Customer" asp-action="Index" asp-controller="Order"><i class="bi bi-list-ul"></i> Orders</a>
                         </li>
                     }
-                    @* <li class="nav-item">
-                        <a class="nav-link" href="/Products">Products</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/About">About Us</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Contact">Contact Us</a>
-                    </li> *@
+                    
                 </ul>
-                @* <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Cart"><i class="bi bi-cart"></i> Cart</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Account/Login">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Account/Register">Register</a>
-                    </li>
-                </ul> *@
+                <form asp-action="Search" asp-controller="Home" class="d-flex">
+                    <input class="form-control me-sm-2" name="query" type="search" placeholder="Search">
+                    <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+                </form>
             </div>
         </div>
     </nav>
