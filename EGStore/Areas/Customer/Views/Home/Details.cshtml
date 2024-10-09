@@ -40,9 +40,27 @@
               <div>
                   @if(User.Identity.IsAuthenticated)
                   {
-                <a asp-action="Index" asp-controller="Cart" asp-route-id="@Model.Id" class="btn btn-primary mt-3">
-                <i class="bi bi-cart-plus"></i> Add to Cart
-                </a>
+                        <a asp-action="Index" asp-controller="Cart" asp-route-id="@Model.Id" class="btn btn-primary mt-3">
+                            <i class="bi bi-cart-plus"></i> Add to Cart
+                        </a>
+                        <h3>What about <i class="bi bi-chat-left-heart-fill"></i></h3>
+                        <hr />
+                        <form asp-action="AddReview" method="post">
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Your Name</label>
+                                <input type="text" class="form-control" id="name" name="Name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="rating" class="form-label">Rating (1-5)</label>
+                                <input type="number" class="form-control" id="rating" name="Rating" min="1" max="5" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="comment" class="form-label">Comment</label>
+                                <textarea class="form-control" id="comment" name="Comment" rows="3" required></textarea>
+                            </div>
+                            <input type="hidden" name="ProductId" value="@Model.Id" />
+                            <button type="submit" class="btn btn-primary">Submit Review</button>
+                        </form>
                   }
                 <a asp-area="Customer" asp-action="Display" asp-controller="Home" class="btn btn-primary mt-3">
                 <i class="bi bi-box-arrow-left"></i> Back To Shop</a>
@@ -55,3 +73,47 @@
         </div>
     </div>
 </div>
+
+<div class="reviews">
+    <h3>Customer Reviews</h3>
+    @if (Model.Reviews != null && Model.Reviews.Any())
+    {
+        <div class="row">
+            @foreach (var review in Model.Reviews)
+            {
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">Rating: @review.Rating/5</h5>
+                            <p class="card-text">@review.Comment</p>
+                        </div>
+                        <div class="card-footer text-muted">
+                            <p><strong>Posted by</strong> : @review.Name<br /> <strong>On</strong> : @review.PostedOn.ToString("g")</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <p>No reviews yet. Be the first to review this product!</p>
+    }
+    @* @if (Model.Reviews != null && Model.Reviews.Any())
+    {
+        foreach (var review in Model.Reviews)
+        {
+            <div class="review">
+                <p><strong>Rating:</strong> @review.Rating/5</p>
+                <p><strong>Comment:</strong> @review.Comment</p>
+                <p><small>Posted on @review.PostedOn.ToString("g")</small></p>
+            </div>
+        }
+    }
+    else
+    {
+        <p>No reviews yet. Be the first to review this product!</p>
+    } *@
+</div>
+
+

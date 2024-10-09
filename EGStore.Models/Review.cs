@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -10,14 +11,17 @@ namespace EGStore.Models
 {
     public class Review
     {
+        [ValidateNever]
         public int Id { get; set; }
         [Range(1,5)]
         public int Rating { get; set; }
+        public string Name { get; set; }
         public string Comment { get; set; }
         public DateTime PostedOn { get; set; }
         [ForeignKey("Product")]
         public int ProductId { get; set; }
         [ForeignKey("ApplicationUser")]
+        [ValidateNever]
         public string ApplicationUserId { get; set; }
         public Product? Product { get; set; }
         public ApplicationUser? ApplicationUser { get; set; }

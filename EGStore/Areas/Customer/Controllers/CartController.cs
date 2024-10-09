@@ -47,19 +47,32 @@ namespace EGStore.Areas.Customer.Controllers
             }
             if (id != 0)
             {
+                var product = _productRepository.GetOne(x => x.Id == id);
 
-                Cart newCart = new Cart()
+
+                if (product != null && product.StockQuantity > 0)
                 {
+                    product.StockQuantity -= 1;
+                    _productRepository.Update(product);
+
+                    Cart newCart = new Cart()
+
+                    { 
                     ProductId = id,
                     Count = 1,
                     ApplicationUserId = userId,
                 };
-                _cartRepository.Add(newCart);
-                return RedirectToAction("Display", "Home");
+                    _cartRepository.Add(newCart);
+                }
+                else
+                {
+                    TempData["Error"] = "Product is out of stock!";
+                }
+                    return RedirectToAction("Display", "Home");
             }
-            var result = _cartRepository.Get(x => x.ApplicationUserId == userId, x => x.Product);
-            TempData["Cart"] = JsonConvert.SerializeObject(result);
-            return View(result);
+                var result = _cartRepository.Get(x => x.ApplicationUserId == userId, x => x.Product);
+                TempData["Cart"] = JsonConvert.SerializeObject(result);
+                return View(result);
         }
         public IActionResult Increment(int id)
         {
