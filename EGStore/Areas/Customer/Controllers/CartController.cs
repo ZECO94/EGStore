@@ -49,7 +49,7 @@ namespace EGStore.Areas.Customer.Controllers
 
             if (userId == null)
             {
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("Login", "Identity/Account");
             }
             if (id != 0)
             {

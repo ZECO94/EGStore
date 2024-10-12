@@ -12,7 +12,7 @@
         <li>
             <strong>@item.Product.ProductName</strong>
             <p>@item.Product.ProductDescription</p>
-            @* <img src="@item.Product.Image" /> *@
+            @* <img src="@item.Product.Image" alt="@item.Product.ProductName" style="width:150px;height:auto;" /> *@
             <a href="@Url.Action("WriteReview", "Review", new { productId = item.ProductId })">Write a Review</a>
         </li>
     }
