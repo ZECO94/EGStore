@@ -38,6 +38,7 @@
         <p>Thank you for your purchase! Your payment has been successfully processed.</p>
 
         <a href="/" class="btn btn-primary mt-3">Continue Shopping</a>
-        <a href="/Customer/Order/Index" class="btn btn-secondary mt-3">View Your Order</a>
+        <a asp-area="Customer" asp-action="Index" asp-controller="Order" class="btn btn-secondary mt-3">View Your Order</a>
+        <a asp-area="Customer" asp-action="AddReview" asp-controller="Cart" class="btn btn-secondary mt-3">What about <i class="bi bi-chat-left-heart-fill"></i></a>
     </div>
 </div>

@@ -23,6 +23,16 @@ namespace EGStore.DataAccess
         {
 
         }
+
+        public ApplicationDbContext()
+        {
+        }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    base.OnConfiguring(optionsBuilder);
+        //    optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=DBEGStore;Integrated Security=True;TrustServerCertificate=True");
+        //}
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

@@ -1,0 +1,20 @@
+﻿@{
+    Layout = "_PagesLayout";
+}
+@model IEnumerable<Cart>
+
+<h2>Order Success!</h2>
+<p>Thank you for your purchase. You can leave a review for the products below:</p>
+
+<ul>
+    @foreach (var item in Model)
+    {
+        <li>
+            <strong>@item.Product.ProductName</strong>
+            <p>@item.Product.ProductDescription</p>
+            @* <img src="@item.Product.Image" /> *@
+            <a href="@Url.Action("WriteReview", "Review", new { productId = item.ProductId })">Write a Review</a>
+        </li>
+    }
+</ul>
+

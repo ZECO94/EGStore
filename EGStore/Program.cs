@@ -35,6 +35,8 @@ namespace EGStore
             builder.Services.AddScoped<IOrderDetailsRepository, OrderDetailsRepository>();
             builder.Services.AddScoped<IWishListRepository, WishListRepository>();
             builder.Services.AddScoped<ICartRepository, CartRepository>();
+            builder.Services.AddScoped<IApplicationUserRepository,ApplicationUserRepository>();
+
 
 
 

@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using EGStore.DataAccess.Repository;
 using EGStore.Utility;
 using Stripe.Checkout;
+using EGStore.DataAccess;
 //using EGStore.Models.ViewModel;
 
 namespace EGStore.Areas.Customer.Controllers
@@ -23,24 +24,29 @@ namespace EGStore.Areas.Customer.Controllers
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IOrderRepository _orderRepository;
         private readonly IOrderDetailsRepository _orderDetailsRepository;
+        private readonly IApplicationUserRepository _applicationUserRepository;
 
 
 
 
         public CartController(ICartRepository cartRepository, IProductRepository productRepository,
             UserManager<IdentityUser> userManager, IOrderRepository orderRepository,
-            IOrderDetailsRepository orderDetailsRepository)
+            IOrderDetailsRepository orderDetailsRepository, IApplicationUserRepository applicationUserRepository)
         {
             _cartRepository = cartRepository;
             _productRepository = productRepository;
             _userManager = userManager;
             _orderRepository = orderRepository;
             _orderDetailsRepository = orderDetailsRepository;
+            _applicationUserRepository = applicationUserRepository;
             
         }
         public IActionResult Index(int id)
         {
             var userId = _userManager.GetUserId(User);
+            var user = _applicationUserRepository.GetOne(e => e.Id == userId);
+            ViewData["User"] = user;
+
             if (userId == null)
             {
                 return RedirectToAction("Login", "Account");
@@ -50,10 +56,10 @@ namespace EGStore.Areas.Customer.Controllers
                 var product = _productRepository.GetOne(x => x.Id == id);
 
 
-                if (product != null && product.StockQuantity > 0)
-                {
-                    product.StockQuantity -= 1;
-                    _productRepository.Update(product);
+                //if (product != null && product.StockQuantity > 0)
+                //{
+                //    product.StockQuantity -= 1;
+                //    _productRepository.Update(product);
 
                     Cart newCart = new Cart()
 
@@ -63,12 +69,12 @@ namespace EGStore.Areas.Customer.Controllers
                     ApplicationUserId = userId,
                 };
                     _cartRepository.Add(newCart);
-                }
-                else
-                {
-                    TempData["Error"] = "Product is out of stock!";
-                }
-                    return RedirectToAction("Display", "Home");
+                //}
+                //else
+                //{
+                //    TempData["Error"] = "Product is out of stock!";
+                //}
+                return RedirectToAction("Display", "Home");
             }
                 var result = _cartRepository.Get(x => x.ApplicationUserId == userId, x => x.Product);
                 TempData["Cart"] = JsonConvert.SerializeObject(result);
@@ -84,8 +90,6 @@ namespace EGStore.Areas.Customer.Controllers
             }
             return RedirectToAction(nameof(Index));
         }
-
-        // Decrease Product Quantity in Cart
         public IActionResult DecreaseQuantity(int id)
         {
             var cartItem = _cartRepository.Get(c => c.Id == id).FirstOrDefault();
@@ -103,8 +107,6 @@ namespace EGStore.Areas.Customer.Controllers
             }
             return RedirectToAction(nameof(Index));
         }
-
-        // Remove Product from Cart
         public IActionResult Remove(int id)
         {
             var cartItem = _cartRepository.Get(c => c.Id == id).FirstOrDefault();
@@ -134,6 +136,7 @@ namespace EGStore.Areas.Customer.Controllers
             return View(cartItems); // Navigate to the Review view
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> ConfirmOrder(string name,string address,string city,string postalCode)
         {
             var userId = _userManager.GetUserId(User);
@@ -191,6 +194,14 @@ namespace EGStore.Areas.Customer.Controllers
                     UnitPrice = item.Product.Price
                 };
                 _orderDetailsRepository.Add(orderDetails);
+
+                // To Decrease Stock Number
+                var product = _productRepository.GetOne(p => p.Id == item.ProductId);
+                if (product != null)
+                {
+                    product.StockQuantity -= item.Count;
+                    _productRepository.Update(product);
+                }
             }
 
             // Clear the cart after placing the order
@@ -203,7 +214,6 @@ namespace EGStore.Areas.Customer.Controllers
             TempData["Cart"] = JsonConvert.SerializeObject(cartItems); // Save cart items in TempData for payment
             return RedirectToAction("Payment");
         }
-
         public IActionResult Payment()
         {
             var options = new SessionCreateOptions
@@ -240,6 +250,12 @@ namespace EGStore.Areas.Customer.Controllers
             var service = new SessionService();
             var session = service.Create(options);
             return Redirect(session.Url);
+        }
+        public IActionResult AddReview()
+        {
+            string cart = (string)TempData["Cart"];
+            var items = JsonConvert.DeserializeObject<IEnumerable<Cart>>(cart);
+            return View(items);
         }
 
 

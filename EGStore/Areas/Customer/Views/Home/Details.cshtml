@@ -43,7 +43,7 @@
                         <a asp-action="Index" asp-controller="Cart" asp-route-id="@Model.Id" class="btn btn-primary mt-3">
                             <i class="bi bi-cart-plus"></i> Add to Cart
                         </a>
-                        <h3>What about <i class="bi bi-chat-left-heart-fill"></i></h3>
+                        @* <h3>What about <i class="bi bi-chat-left-heart-fill"></i></h3>
                         <hr />
                         <form asp-action="AddReview" method="post">
                             <div class="mb-3">
@@ -60,7 +60,7 @@
                             </div>
                             <input type="hidden" name="ProductId" value="@Model.Id" />
                             <button type="submit" class="btn btn-primary">Submit Review</button>
-                        </form>
+                        </form> *@
                   }
                 <a asp-area="Customer" asp-action="Display" asp-controller="Home" class="btn btn-primary mt-3">
                 <i class="bi bi-box-arrow-left"></i> Back To Shop</a>
