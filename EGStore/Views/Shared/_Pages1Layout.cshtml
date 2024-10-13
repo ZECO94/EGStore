@@ -30,7 +30,8 @@
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" asp-area="Customer" asp-action="Index" asp-controller="Home">Home</a>
-                     </li>
+                        
+                    </li>
                     @if (User.IsInRole("User"))
                     {
                         <li class="nav-item">
@@ -55,16 +56,19 @@
                                     <a class="nav-link me-4" asp-area="Identity" asp-page="/Account/Register">Add User</a>
                                 }
                             </ul>
-                        </li>
 
+                        </li>
                     }
-                        
                 </ul>
+                    
                 </ul>
-                <form asp-action="Search" asp-controller="Home" class="d-flex">
+                <div class="user-items d-flex">
+                    <partial name="_LoginPartial" />
+                </div>
+                @* <form asp-action="Search" asp-controller="Home" class="d-flex">
                     <input class="form-control me-sm-2" name="query" type="search" placeholder="Search">
                     <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-                </form>
+                </form> *@
             </div>
         </div>
     </nav>

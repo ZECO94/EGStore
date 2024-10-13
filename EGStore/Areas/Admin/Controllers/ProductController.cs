@@ -1,5 +1,6 @@
 ﻿using EGStore.DataAccess.Repository.IRepository;
 using EGStore.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 namespace EGStore.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class ProductController : Controller
     {
         private readonly IProductRepository _productRepository;

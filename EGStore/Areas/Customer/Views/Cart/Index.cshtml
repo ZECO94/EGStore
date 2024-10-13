@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Cart>
 
 @{
-    Layout = "_PagesLayout";
+    Layout = "_Pages1Layout";
     ViewData["Title"] = "Your Cart";
     var appUser=(ApplicationUser)ViewData["User"];
 }
@@ -52,7 +52,6 @@
             </tbody>
         </table>
 
-        <!-- Form to capture user shipping details -->
         <div class="mt-4">
             <h4>Shipping Information</h4>
             <form asp-action="ConfirmOrder" method="post">

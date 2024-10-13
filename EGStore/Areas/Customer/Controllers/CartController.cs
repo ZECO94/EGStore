@@ -137,7 +137,7 @@ namespace EGStore.Areas.Customer.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ConfirmOrder(string name,string address,string city,string postalCode)
+        public async Task<IActionResult> ConfirmOrder(string name, string address, string city, string postalCode)
         {
             var userId = _userManager.GetUserId(User);
             if (userId == null)
@@ -175,7 +175,7 @@ namespace EGStore.Areas.Customer.Controllers
                 Address = address,
                 City = city,
                 PostalCode = postalCode,
-                PhoneNumber = user.PhoneNumber,  
+                PhoneNumber = user.PhoneNumber,
                 OrderStatus = OrderStatus.Processing,
                 PaymentDate = DateTime.Now
             };
@@ -257,6 +257,8 @@ namespace EGStore.Areas.Customer.Controllers
             var items = JsonConvert.DeserializeObject<IEnumerable<Cart>>(cart);
             return View(items);
         }
+        
+
 
 
 

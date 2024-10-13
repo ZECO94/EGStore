@@ -1,10 +1,12 @@
 ﻿using EGStore.DataAccess.Repository.IRepository;
 using EGStore.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EGStore.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class BrandController : Controller
     {
         private readonly IBrandRepository _brandRepository;
